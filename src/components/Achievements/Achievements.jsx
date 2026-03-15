@@ -34,10 +34,19 @@ const Achievements = () => {
       return;
     }
 
+    const fallbackTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 650);
+
+    if (!("IntersectionObserver" in window)) {
+      return () => clearTimeout(fallbackTimer);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          clearTimeout(fallbackTimer);
           observer.disconnect();
         }
       },
@@ -46,7 +55,10 @@ const Achievements = () => {
 
     observer.observe(target);
 
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
   }, []);
 
   useEffect(() => {

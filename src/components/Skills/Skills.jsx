@@ -13,10 +13,19 @@ const Skills = () => {
       return;
     }
 
+    const fallbackTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 650);
+
+    if (!("IntersectionObserver" in window)) {
+      return () => clearTimeout(fallbackTimer);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          clearTimeout(fallbackTimer);
           observer.disconnect();
         }
       },
@@ -24,7 +33,10 @@ const Skills = () => {
     );
 
     observer.observe(sectionNode);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
   }, []);
 
   return (

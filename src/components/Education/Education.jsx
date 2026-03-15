@@ -11,10 +11,19 @@ const Education = () => {
       return;
     }
 
+    const fallbackTimer = setTimeout(() => {
+      setIsVisible(true);
+    }, 650);
+
+    if (!("IntersectionObserver" in window)) {
+      return () => clearTimeout(fallbackTimer);
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
+          clearTimeout(fallbackTimer);
           observer.disconnect();
         }
       },
@@ -22,7 +31,10 @@ const Education = () => {
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(fallbackTimer);
+      observer.disconnect();
+    };
   }, []);
 
   return (
