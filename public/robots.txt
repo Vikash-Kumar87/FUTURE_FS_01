@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://vikash-portfolio-vk87.vercel.app/sitemap.xml
+Sitemap: https://vikash-portfolio-vk87.vercel.app/sitemap-main.xml
