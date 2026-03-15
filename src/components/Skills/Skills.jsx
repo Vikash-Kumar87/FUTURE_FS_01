@@ -1,66 +1,91 @@
 // src/components/Skills/Skills.jsx
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SkillsInfo } from "../../constants";
 import Tilt from "react-parallax-tilt";
 
-const Skills = () => (
-  <section
-    id="skills"
-    className="py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[20vw] font-sans bg-skills-gradient clip-path-custom"
-  >
-    {/* Section Title */}
-    <div className="text-center mb-8">
-      <h2 className="text-3xl sm:text-4xl font-bold text-white">SKILLS</h2>
-      <div className="w-24 h-1 bg-[#8245ec] mx-auto mt-2"></div>
-      <p className="text-gray-400 mt-4 text-lg font-semibold">
-      A collection of my technical skills and expertise honed through various projects and experiences
-      </p>
-    </div>
+const Skills = () => {
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-    {/* Skill Categories */}
-    <div className="flex flex-wrap gap-1 lg:gap-5 py-10 justify-between">
-      {SkillsInfo.map((category) => (
-        <div
-          key={category.title}
-          className="bg-gray-900 backdrop-blur-md px-6 sm:px-10 py-8 sm:py-6 mb-10 w-full sm:w-[48%] rounded-2xl border border-white 
-          shadow-[0_0_20px_1px_rgba(130,69,236,0.3)]"
-        >
-          <h3 className="text-2xl sm:text-3xl font-semibold text-gray-400 mb-4 text-center">
-            {category.title}
-          </h3>
+  useEffect(() => {
+    const sectionNode = sectionRef.current;
+    if (!sectionNode) {
+      return;
+    }
 
-          {/* Skill Items - 3 per row on larger screens */}
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(sectionNode);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      id="skills"
+      ref={sectionRef}
+      className="relative overflow-hidden px-4 py-16 pb-16 font-sans bg-skills-gradient clip-path-custom sm:px-6 sm:py-20 sm:pb-20 md:px-[7vw] lg:px-[20vw]"
+    >
+      <div className="pointer-events-none absolute -left-28 top-24 h-56 w-56 rounded-full bg-cyan-500/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 bottom-8 h-60 w-60 rounded-full bg-violet-500/20 blur-3xl" />
+
+      <div className="relative mb-8 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold text-white">SKILLS</h2>
+        <div className="mx-auto mt-2 h-1 w-24 bg-gradient-to-r from-cyan-400 to-violet-500"></div>
+        <p className="mt-4 text-base font-semibold text-gray-400 sm:text-lg">
+          A collection of my technical skills and expertise honed through various projects and experiences
+        </p>
+      </div>
+
+      <div className="relative flex flex-wrap justify-between gap-3 py-8 sm:py-10 lg:gap-5">
+        {SkillsInfo.map((category, categoryIndex) => (
           <Tilt
             key={category.title}
-            tiltMaxAngleX={20}
-            tiltMaxAngleY={20}
+            tiltMaxAngleX={11}
+            tiltMaxAngleY={11}
             perspective={1000}
-            scale={1.05}
-            transitionSpeed={1000}
+            scale={1.02}
+            transitionSpeed={950}
             gyroscope={true}
+            className={`skills-card mb-8 w-full rounded-2xl border border-slate-600/70 bg-[linear-gradient(145deg,rgba(15,23,42,0.92),rgba(30,41,59,0.72))] px-4 py-6 shadow-[0_0_26px_rgba(56,189,248,0.12)] backdrop-blur-md sm:mb-10 sm:w-[48%] sm:px-8 ${
+              isVisible ? "skills-card-visible" : "skills-card-hidden"
+            }`}
+            style={{ animationDelay: `calc(var(--cinematic-stagger) * ${categoryIndex})` }}
           >
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">
-              {category.skills.map((skill) => (
+            <div className="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_14%_18%,rgba(56,189,248,0.18),transparent_40%),radial-gradient(circle_at_88%_86%,rgba(167,139,250,0.18),transparent_45%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+            <h3 className="mb-5 text-center text-2xl font-semibold text-slate-200 sm:text-3xl">
+              {category.title}
+            </h3>
+
+            <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-3">
+              {category.skills.map((skill, skillIndex) => (
                 <div
                   key={skill.name}
-                  className="flex items-center justify-center space-x-2 bg-transparent border-2 border-gray-700 rounded-3xl py-2 px-2 sm:py-2 sm:px-2 text-center"
+                  className="skills-chip flex items-center justify-center space-x-2 rounded-3xl border border-slate-600 bg-slate-800/65 px-2 py-2 text-center"
+                  style={{ transitionDelay: `${skillIndex * 35}ms` }}
                 >
                   <img
                     src={skill.logo}
                     alt={`${skill.name} logo`}
-                    className="w-6 h-6 sm:w-8 sm:h-8"
+                    className="h-6 w-6 sm:h-8 sm:w-8"
                   />
-                  <span className="text-xs sm:text-sm text-gray-300">
-                    {skill.name}
-                  </span>
+                  <span className="text-xs text-gray-300 sm:text-sm">{skill.name}</span>
                 </div>
               ))}
             </div>
           </Tilt>
-        </div>
-      ))}
-    </div>
-  </section>
-);
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default Skills;

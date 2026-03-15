@@ -12,6 +12,288 @@
 html {
   scroll-behavior: smooth;
 }
+
+:root {
+  --cinematic-duration: 680ms;
+  --cinematic-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --cinematic-stagger: 110ms;
+}
+
+.timeline-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-card-hidden {
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+}
+
+.skills-card-visible {
+  animation: skillsReveal var(--cinematic-duration) var(--cinematic-ease) forwards;
+}
+
+.skills-chip {
+  transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.skills-chip:hover {
+  transform: translateY(-2px);
+  border-color: rgba(103, 232, 249, 0.65);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.experience-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-card-hidden {
+  opacity: 0;
+  transform: translateY(22px) scale(0.98);
+}
+
+.experience-card-visible {
+  animation: experienceReveal var(--cinematic-duration) var(--cinematic-ease) forwards;
+}
+
+.project-card-hidden {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+}
+
+.project-card-visible {
+  animation: projectReveal var(--cinematic-duration) var(--cinematic-ease) forwards;
+}
+
+.education-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.education-card-hidden {
+  opacity: 0;
+  transform: translateY(22px) scale(0.98);
+}
+
+.education-card-visible {
+  animation: educationReveal var(--cinematic-duration) var(--cinematic-ease) forwards;
+}
+
+.cinematic-item-hidden {
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+}
+
+.cinematic-item-visible {
+  animation: cinematicReveal var(--cinematic-duration) var(--cinematic-ease) forwards;
+}
+
+.hero-avatar-ring {
+  animation: heroFloat 4.5s ease-in-out infinite;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.22),
+    0 0 42px rgba(139, 92, 246, 0.35),
+    0 0 84px rgba(34, 211, 238, 0.2);
+}
+
+.hero-photo-3d {
+  transition: transform 420ms ease, filter 420ms ease;
+  filter: saturate(1.08) contrast(1.04);
+  will-change: transform;
+}
+
+.hero-avatar-ring:hover .hero-photo-3d {
+  filter: saturate(1.14) contrast(1.08);
+}
+
+.hero-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(125, 211, 252, 0.9), rgba(167, 139, 250, 0));
+  opacity: 0.75;
+  animation: particleFloat linear infinite;
+}
+
+.hero-badge-active {
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.35);
+  animation: badgePulse 1.7s ease-in-out infinite;
+}
+
+.timeline-metric-hidden {
+  opacity: 0;
+  transform: translateY(18px) scale(0.96);
+}
+
+.timeline-metric-visible {
+  animation: metricIn 520ms ease-out forwards;
+}
+
+.timeline-progress-line {
+  transform-origin: top;
+}
+
+.timeline-progress-line-hidden {
+  height: 100%;
+  transform: scaleY(0);
+  opacity: 0.55;
+}
+
+.timeline-progress-line-visible {
+  height: 100%;
+  animation: lineGrow 1400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.timeline-card-hidden {
+  opacity: 0;
+  transform: translateY(28px) scale(0.98);
+}
+
+.timeline-card-visible {
+  animation: timelineIn 650ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes timelineIn {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes metricIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes lineGrow {
+  0% {
+    transform: scaleY(0);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes heroFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) scale(0.85);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-24px) scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-46px) scale(0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes badgePulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes skillsReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes experienceReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes projectReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes educationReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cinematicReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @layer utilities {
     .clip-path-custom {
       clip-path: polygon(0 0, 100% 0, 100% 98%, 75% 95%, 0 100%);
